@@ -1,0 +1,67 @@
+appId: com.habitsaga.app
+---
+# Test: Start New Saga After Completion
+# Covers: Navigate from completed goal → Start new saga
+
+- launchApp
+
+# Navigate to home
+- tapOn: "Home"
+
+# Look for "Start New Saga" button or navigate to saga creation
+- runFlow:
+    when:
+      visible: "Start New Saga"
+    commands:
+      - tapOn: "Start New Saga"
+
+# Alternative: Use tab navigation if no completed saga yet
+- runFlow:
+    when:
+      visible: "Goals"
+    commands:
+      - tapOn: "Goals"
+      - tapOn: "Create New Goal"
+
+# Begin new saga wizard
+- assertVisible: "Choose Your Theme"
+- tapOn: "Superhero"
+- tapOn: "Next"
+
+# Quick goal setup (abbreviated from full wizard)
+- tapOn: "Goal title"
+- inputText: "Exercise 5 Days a Week"
+- tapOn: "Description"
+- inputText: "Build consistent workout routine"
+- tapOn: "Next"
+
+# Skip through context questions quickly
+- tapOn: "Rarely or never"
+- tapOn: "Next"
+- tapOn: "Blocker"
+- inputText: "Lack of motivation"
+- tapOn: "Next"
+- tapOn: "Past efforts"
+- inputText: "Tried gym membership"
+- tapOn: "Next"
+- tapOn: "Morning (6am-12pm)"
+- tapOn: "Gym/Studio"
+- tapOn: "Next"
+- tapOn: "Motivation"
+- inputText: "Better health"
+- tapOn: "Next"
+
+# Cadence and target
+- tapOn: "5 times per week"
+- tapOn: "Next"
+- tapOn: "90 days"
+- tapOn: "Create My Saga"
+
+# Wait for creation
+- waitForAnimationToEnd:
+    timeout: ${AI_GENERATION_WAIT}
+
+# Verify new saga created
+- assertVisible: "Your Journey Begins"
+- tapOn: "Start Your Adventure"
+- assertVisible: "Exercise 5 Days"

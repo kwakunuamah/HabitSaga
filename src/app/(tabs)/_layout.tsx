@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router';
 import { theme } from '../../theme';
-import { BookOpen, CheckCircle, User } from 'lucide-react-native';
+import { BookOpen, User, type LucideProps } from 'lucide-react-native';
+import type { ComponentType } from 'react';
 
 export default function TabLayout() {
     return (
@@ -20,17 +21,7 @@ export default function TabLayout() {
                 options={{
                     title: 'Stories',
                     tabBarIcon: ({ color, size }) => {
-                        const Icon = BookOpen as any;
-                        return <Icon color={color} size={size} />;
-                    },
-                }}
-            />
-            <Tabs.Screen
-                name="check-in"
-                options={{
-                    title: 'Check-in',
-                    tabBarIcon: ({ color, size }) => {
-                        const Icon = CheckCircle as any;
+                        const Icon = BookOpen as ComponentType<LucideProps>;
                         return <Icon color={color} size={size} />;
                     },
                 }}
@@ -40,7 +31,7 @@ export default function TabLayout() {
                 options={{
                     title: 'Profile',
                     tabBarIcon: ({ color, size }) => {
-                        const Icon = User as any;
+                        const Icon = User as ComponentType<LucideProps>;
                         return <Icon color={color} size={size} />;
                     },
                 }}

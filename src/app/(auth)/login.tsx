@@ -5,6 +5,7 @@ import { ScreenWrapper } from '../../components/ScreenWrapper';
 import { AppText } from '../../components/AppText';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
+import { AppleSignInButton } from '../../components/AppleSignInButton';
 import { theme } from '../../theme';
 import { supabase } from '../../api/supabaseClient';
 
@@ -61,6 +62,14 @@ export default function Login() {
                 style={styles.button}
             />
 
+            <View style={styles.divider}>
+                <View style={styles.dividerLine} />
+                <AppText variant="body" style={styles.dividerText}>or</AppText>
+                <View style={styles.dividerLine} />
+            </View>
+
+            <AppleSignInButton style={styles.appleButton} />
+
             <Button
                 title="Back"
                 variant="outline"
@@ -84,5 +93,23 @@ const styles = StyleSheet.create({
     },
     button: {
         marginBottom: theme.spacing.m,
+    },
+    appleButton: {
+        marginBottom: theme.spacing.m,
+    },
+    divider: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: theme.spacing.m,
+    },
+    dividerLine: {
+        flex: 1,
+        height: 1,
+        backgroundColor: theme.colors.backgroundElevated,
+    },
+    dividerText: {
+        color: theme.colors.textSecondary,
+        paddingHorizontal: theme.spacing.m,
+        fontSize: 12,
     },
 });

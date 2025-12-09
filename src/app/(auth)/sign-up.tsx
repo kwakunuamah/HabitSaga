@@ -16,19 +16,42 @@ export default function SignUp() {
 
     const handleSignUp = async () => {
         setLoading(true);
-        const { error } = await supabase.auth.signUp({
-            email,
-            password,
-        });
+        try {
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
+            });
 
-        if (error) {
-            Alert.alert('Error', error.message);
-        } else {
-            Alert.alert('Success', 'Please check your email for confirmation!');
-            // In a real app, we might auto-login or redirect to a "check email" screen.
-            // For MVP, if auto-confirm is on in Supabase (dev), it will log them in.
+            if (error) {
+                Alert.alert('Error', error.message);
+                setLoading(false);
+                return;
+            }
+
+            // Create user row in custom users table
+            if (data.user) {
+                const { error: insertError } = await supabase
+                    .from('users')
+                    .insert({
+                        id: data.user.id,
+                        email: data.user.email,
+                    });
+
+                if (insertError) {
+                    console.error('Error creating user profile:', insertError);
+                    // Don't block the user - we'll handle this in the profile screen
+                }
+            }
+
+            // Auth state listener in _layout.tsx will automatically redirect to onboarding
+            // since the new user won't have a display_name yet
+            Alert.alert('Success', 'Account created! Setting up your profile...');
+        } catch (err) {
+            Alert.alert('Error', 'An unexpected error occurred');
+            console.error('Sign up error:', err);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     return (

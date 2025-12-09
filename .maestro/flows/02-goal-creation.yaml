@@ -1,0 +1,71 @@
+appId: com.habitsaga.app
+---
+# Test: Complete Goal Creation Flow
+# Covers: Full wizard → AI generation → Origin reveal
+
+- launchApp
+- assertVisible: "Start Your First Saga"
+
+# Step 1: Start goal wizard
+- tapOn: "Create Your First Goal"
+- assertVisible: "Choose Your Theme"
+
+# Step 2: Select theme
+- tapOn: "Fantasy"
+- tapOn: "Next"
+
+# Step 3: Goal title and description
+- assertVisible: "What's your goal?"
+- tapOn: "Goal title"
+- inputText: "Read 12 Books This Year"
+- tapOn: "Description"
+- inputText: "Build a consistent reading habit by reading every evening before bed"
+- tapOn: "Next"
+
+# Step 4: Context questions
+
+# 4a: Current frequency
+- assertVisible: "How often do you do this now?"
+- tapOn: "Once a month or less"
+- tapOn: "Next"
+
+# 4b: Biggest blocker
+- assertVisible: "What's your biggest blocker?"
+- tapOn: "Blocker"
+- inputText: "Too tired after work, end up watching TV instead"
+- tapOn: "Next"
+
+# 4c: Past efforts
+- assertVisible: "What have you tried before?"
+- tapOn: "Past efforts"
+- inputText: "Tried setting reading goals before but never tracked them"
+- tapOn: "Next"
+
+# 4d: When & where (cue context)
+- assertVisible: "When and where?"
+- tapOn: "Evening (6pm-10pm)"
+- tapOn: "Home"
+- tapOn: "Next"
+
+# 4e: Why it matters
+- assertVisible: "Why does this matter to you?"
+- tapOn: "Motivation"
+- inputText: "Want to learn new things and reduce screen time"
+- tapOn: "Next"
+
+# Step 5: Cadence
+- assertVisible: "How often will you check in?"
+- tapOn: "3 times per week"
+- tapOn: "Next"
+
+# Step 6: Target date
+- assertVisible: "When do you want to complete this?"
+- tapOn: "60 days"
+- tapOn: "Create My Saga"
+
+# Step 7: Wait for AI generation
+- waitForAnimationToEnd:
+    timeout: ${AI_GENERATION_WAIT}
+
+# Step 8: Verify origin reveal screen
+- assertVisible: "Your Journey Begins"

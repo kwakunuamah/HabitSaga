@@ -30,7 +30,12 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files
+# Environment files
+.env.local
+
+# Maestro E2E test artifacts
+.maestro/screenshots/
+.maestro/recordings/
 .env*.local
 
 # typescript

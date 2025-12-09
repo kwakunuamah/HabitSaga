@@ -1,4 +1,4 @@
-# Habit Saga
+# Habit Chronicle
 
 **Turn your daily habits into an epic story.**
 

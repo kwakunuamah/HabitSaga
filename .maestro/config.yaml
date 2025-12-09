@@ -1,0 +1,9 @@
+appId: com.habitsaga.app
+env:
+  TEST_EMAIL: E2E@test.com
+  TEST_PASSWORD: test1234$
+  # Wait times for various operations
+  SHORT_WAIT: 2000
+  MEDIUM_WAIT: 5000
+  LONG_WAIT: 10000
+  AI_GENERATION_WAIT: 15000

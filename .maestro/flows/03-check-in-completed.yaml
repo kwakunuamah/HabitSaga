@@ -1,0 +1,53 @@
+appId: com.habitsaga.app
+---
+# Test: Check-in Flow - Completed All Tasks
+# Covers: Navigate to check-in → Select "completed" → Reflection → Chapter reveal
+
+- launchApp
+
+# Step 1: Navigate to active goal
+- tapOn: "Home"
+- assertVisible: "Read 12 Books"
+- tapOn: "Check In"
+
+# Step 2: Select outcome - COMPLETED
+- assertVisible: "How did it go?"
+
+# If habit plan exists, select full completion for all tasks
+- runFlow:
+    when:
+      visible: "Read 5 pages before bed"
+    commands:
+      - tapOn: 
+          id: "task-0-full"
+      - tapOn:
+          id: "task-1-full"
+      - tapOn:
+          id: "task-2-full"
+
+# If legacy flow (no habit plan), select "Yes"
+- runFlow:
+    when:
+      visible: "Did you complete your habit?"
+    commands:
+      - tapOn: "Yes, I did it!"
+
+- tapOn: "Next"
+
+# Step 3: Reflection (positive outcome)
+- assertVisible: "Great work!"
+- tapOn: "Notes"
+- inputText: "Felt really motivated today! Finished a great chapter."
+- tapOn: "Submit"
+
+# Step 4: Wait for AI chapter generation
+- waitForAnimationToEnd:
+    timeout: ${AI_GENERATION_WAIT}
+
+# Step 5: Verify chapter reveal screen
+- assertVisible: "Chapter"
+- assertVisible: "Back to saga"
+
+# Step 6: Return to saga home
+- tapOn: "Back to saga"
+- assertVisible: "Read 12 Books"

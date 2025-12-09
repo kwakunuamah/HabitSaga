@@ -1,61 +1,142 @@
-import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ScreenWrapper } from '../../components/ScreenWrapper';
 import { AppText } from '../../components/AppText';
 import { Button } from '../../components/Button';
+import { WizardProgressBar } from '../../components/WizardProgressBar';
 import { theme } from '../../theme';
 import { useWizard } from './WizardContext';
-import { Theme } from '../../types';
+import { ThemeType } from '../../types'; // Ensure ThemeType is exported from types
 
-const THEMES: Theme[] = [
-    'superhero',
-    'fantasy',
-    'sci-fi',
-    'anime',
-    'custom',
+const THEMES: { type: ThemeType; label: string; image: any }[] = [
+    { type: 'superhero', label: 'Comic Superhero', image: require('../../../assets/themes/theme_superhero.png') },
+    { type: 'fantasy', label: 'Magical Fantasy', image: require('../../../assets/themes/theme_fantasy.png') },
+    { type: 'sci-fi', label: 'Cyber Sci-Fi', image: require('../../../assets/themes/theme_scifi.png') },
+    { type: 'anime', label: 'Classic Anime', image: require('../../../assets/themes/theme_anime.png') },
+    { type: 'noir', label: 'Mystery Noir', image: require('../../../assets/themes/theme_noir.png') },
+    { type: 'action_adventure', label: 'Action Adventure', image: require('../../../assets/themes/action_adventure.png') },
+    { type: 'pop_regency', label: 'Pop Regency', image: require('../../../assets/themes/pop_regency.png') },
 ];
 
 export default function Step4() {
     const router = useRouter();
-    const { updateData } = useWizard();
+    const { data, updateData } = useWizard();
+    const [selectedTheme, setSelectedTheme] = useState<ThemeType>(data.theme as ThemeType);
 
-    const handleSelect = (selectedTheme: Theme) => {
+    const handleCreate = () => {
         updateData({ theme: selectedTheme });
-        router.push('/goal-wizard/step5');
+        router.push('/goal-wizard/loading');
     };
 
     return (
         <ScreenWrapper>
-            <AppText variant="headingL" style={styles.title}>Pick your world</AppText>
+            <WizardProgressBar currentStep={11} totalSteps={12} style={{ paddingHorizontal: theme.spacing.l }} />
+            <View style={styles.header}>
+                <AppText variant="headingL">Choose Your Story Style</AppText>
+                <AppText variant="body" style={styles.subtitle}>
+                    This will define the visual style of your journey.
+                </AppText>
+            </View>
 
-            <FlatList
-                data={THEMES}
-                keyExtractor={(item) => item}
-                renderItem={({ item }) => (
-                    <Button
-                        title={item.charAt(0).toUpperCase() + item.slice(1)}
-                        variant="secondary"
-                        onPress={() => handleSelect(item)}
-                        style={styles.button}
-                    />
-                )}
-                contentContainerStyle={styles.list}
-            />
+            <ScrollView contentContainerStyle={styles.grid}>
+                {THEMES.map((item) => (
+                    <TouchableOpacity
+                        key={item.type}
+                        style={[
+                            styles.card,
+                            selectedTheme === item.type && styles.selectedCard,
+                        ]}
+                        onPress={() => setSelectedTheme(item.type)}
+                    >
+                        <Image source={item.image} style={styles.image} resizeMode="cover" />
+                        <View style={styles.labelContainer}>
+                            <AppText
+                                variant="bodySmall"
+                                style={[
+                                    styles.label,
+                                    selectedTheme === item.type && styles.selectedLabel,
+                                ]}
+                            >
+                                {item.label}
+                            </AppText>
+                        </View>
+                    </TouchableOpacity>
+                ))}
+                <View style={styles.scrollHintContainer}>
+                    <AppText variant="caption" style={styles.scrollHintText}>
+                        Scroll for more themes ↓
+                    </AppText>
+                </View>
+            </ScrollView>
+
+            <View style={styles.footer}>
+                <Button
+                    title="Create My Story"
+                    onPress={handleCreate}
+                />
+            </View>
         </ScreenWrapper>
     );
 }
 
 const styles = StyleSheet.create({
-    title: {
-        marginTop: theme.spacing.l,
-        marginBottom: theme.spacing.xl,
+    header: {
+        paddingVertical: theme.spacing.xl,
+    },
+    subtitle: {
+        color: theme.colors.textSecondary,
+        marginTop: theme.spacing.xs,
+    },
+    grid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: theme.spacing.m,
+        paddingBottom: theme.spacing.xl,
+    },
+    card: {
+        width: '47%', // Roughly half minus gap
+        aspectRatio: 2 / 3,
+        borderRadius: theme.borderRadius.m,
+        overflow: 'hidden',
+        borderWidth: 2,
+        borderColor: 'transparent',
+        backgroundColor: theme.colors.surface,
+    },
+    selectedCard: {
+        borderColor: theme.colors.primary,
+    },
+    image: {
+        width: '100%',
+        height: '100%',
+    },
+    labelContainer: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        padding: theme.spacing.s,
+        alignItems: 'center',
+    },
+    label: {
+        color: '#FFFFFF',
+        fontWeight: 'bold',
         textAlign: 'center',
     },
-    list: {
-        gap: theme.spacing.m,
+    selectedLabel: {
+        color: theme.colors.primary,
     },
-    button: {
-        marginBottom: theme.spacing.m,
+    scrollHintContainer: {
+        width: '100%',
+        alignItems: 'center',
+        paddingVertical: theme.spacing.m,
+    },
+    scrollHintText: {
+        color: theme.colors.textSecondary,
+        opacity: 0.8,
+    },
+    footer: {
+        paddingVertical: theme.spacing.xl,
     },
 });

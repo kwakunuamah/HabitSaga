@@ -1,0 +1,50 @@
+appId: com.habitsaga.app
+---
+# Test: Check-in Flow - Missed All Tasks
+# Covers: All tasks missed → Empathetic reflection → Encouraging chapter
+
+- launchApp
+
+# Navigate to check-in
+- tapOn: "Home"
+- tapOn: "Check In"
+
+# Select all missed
+- assertVisible: "How did it go?"
+
+# Task-based: All none
+- runFlow:
+    when:
+      visible: "Read 5 pages before bed"
+    commands:
+      - tapOn:
+          id: "task-0-none"
+      - tapOn:
+          id: "task-1-none"
+      - tapOn:
+          id: "task-2-none"
+
+# Legacy flow: No
+- runFlow:
+    when:
+      visible: "Did you complete your habit?"
+    commands:
+      - tapOn: "No, I missed it"
+
+- tapOn: "Next"
+
+# Reflection for missed outcome
+- assertVisible: "What happened?"
+- tapOn: "Unexpected event"
+- tapOn: "Notes"
+- inputText: "Had a family emergency, couldn't focus on habits"
+- tapOn: "Submit"
+
+# Wait for chapter generation
+- waitForAnimationToEnd:
+    timeout: ${AI_GENERATION_WAIT}
+
+# Verify empathetic chapter (not judgmental)
+- assertVisible: "Chapter"
+- assertVisible: "Back to saga"
+- tapOn: "Back to saga"

@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: theme.spacing.m,
         color: theme.colors.textPrimary,
         fontSize: 16,
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: theme.colors.border,
     },
     inputError: {

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "temp_app",
-    "slug": "temp_app",
+    "name": "Habit Chronicle",
+    "slug": "habit-chronicle",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,7 +13,17 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "usesAppleSignIn": true,
+      "bundleIdentifier": "com.habitsaga.app",
+      "entitlements": {
+        "aps-environment": "production"
+      },
+      "infoPlist": {
+        "NSCameraUsageDescription": "Habit Chronicle needs access to your camera to take a selfie for your hero avatar.",
+        "NSPhotoLibraryUsageDescription": "Habit Chronicle needs access to your photo library to let you choose a photo for your hero avatar.",
+        "NSPhotoLibraryAddUsageDescription": "Habit Chronicle needs permission to save photos to your library."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +37,23 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-router"
-    ]
+      "expo-router",
+      "expo-apple-authentication",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#ffffff",
+          "sounds": []
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6045ae6a-f902-4c3f-85c0-f3e471fd2d0e"
+      },
+      "router": {}
+    },
+    "owner": "kwakunewyork"
   }
 }

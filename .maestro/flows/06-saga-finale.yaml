@@ -1,0 +1,69 @@
+appId: com.habitsaga.app
+---
+# Test: Saga Finale Flow
+# Covers: Complete final check-in → Finale screen → CTA options
+# NOTE: This test requires a goal that's at or near completion
+
+- launchApp
+
+# Navigate to nearly-complete goal
+- tapOn: "Home"
+- assertVisible: "Read 12 Books"
+
+# Complete final check-in
+- tapOn: "Check In"
+- assertVisible: "How did it go?"
+
+# Mark as completed
+- runFlow:
+    when:
+      visible: "task-0-full"
+    commands:
+      - tapOn:
+          id: "task-0-full"
+      - tapOn:
+          id: "task-1-full"
+
+- runFlow:
+    when:
+      visible: "Did you complete your habit?"
+    commands:
+      - tapOn: "Yes, I did it!"
+
+- tapOn: "Next"
+
+# Add celebratory note
+- tapOn: "Notes"
+- inputText: "Amazing journey! Completed all reading goals!"
+- tapOn: "Submit"
+
+# Wait for chapter generation
+- waitForAnimationToEnd:
+    timeout: ${AI_GENERATION_WAIT}
+
+# Chapter reveal
+- assertVisible: "Chapter"
+- tapOn: "Back to saga"
+
+# Check if finale triggers (depends on completion criteria)
+- runFlow:
+    when:
+      visible: "Season Finale"
+    commands:
+      # Verify finale stats
+      - assertVisible: "Total Chapters"
+      - assertVisible: "Streak"
+      - assertVisible: "Completion Rate"
+      
+      # Verify CTA cards present
+      - assertVisible: "Start Season 2"
+      - assertVisible: "New Saga"
+      
+      # Test "Start Season 2" flow
+      - tapOn: "Start Season 2"
+      - assertVisible: "Continue Your Journey"
+      - tapOn: "Back"
+      
+      # Test "New Saga" flow
+      - tapOn: "New Saga"
+      - assertVisible: "Choose Your Theme"

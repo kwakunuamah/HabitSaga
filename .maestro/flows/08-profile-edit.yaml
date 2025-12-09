@@ -1,0 +1,61 @@
+appId: com.habitsaga.app
+---
+# Test: Profile Editing Flow
+# Covers: Navigate to profile → Edit details → Verify persistence
+
+- launchApp
+
+# Step 1: Navigate to profile tab
+- tapOn: "Profile"
+- assertVisible: "E2E Test User"
+
+# Step 2: Edit profile
+- tapOn: "Edit Profile"
+- assertVisible: "Edit Your Profile"
+
+# Step 3: Update name
+- tapOn: "Name"
+- clearKeychain
+- inputText: "E2E Test User Updated"
+
+# Step 4: Update bio
+- tapOn: "Bio"
+- clearKeychain
+- inputText: "Updated bio for automated testing - profile edit flow verified"
+
+# Step 5: Save changes
+- tapOn: "Save"
+- waitForAnimationToEnd:
+    timeout: ${SHORT_WAIT}
+
+# Step 6: Verify changes persisted
+- assertVisible: "E2E Test User Updated"
+- assertVisible: "Updated bio for automated testing"
+
+# Step 7: Test theme preference (if available)
+- runFlow:
+    when:
+      visible: "Preferred Theme"
+    commands:
+      - tapOn: "Preferred Theme"
+      - tapOn: "Fantasy"
+      - tapOn: "Save"
+      - assertVisible: "Fantasy"
+
+# Step 8: Test subscription display (if visible)
+- runFlow:
+    when:
+      visible: "Subscription"
+    commands:
+      - assertVisible:
+          text: "Free|Plus|Premium"
+          regex: true
+
+# Step 9: Verify avatar options (if available)
+- runFlow:
+    when:
+      visible: "Change Avatar"
+    commands:
+      - tapOn: "Change Avatar"
+      - assertVisible: "Choose Your Hero"
+      - tapOn: "Cancel"

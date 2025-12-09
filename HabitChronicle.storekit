@@ -1,0 +1,179 @@
+{
+  "identifier" : "HabitChronicle",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6738861733",
+    "_developerTeamID" : "$(DEVELOPMENT_TEAM)",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 786384259.59447598,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21584353",
+      "localizations" : [
+
+      ],
+      "name" : "Habit Chronicle Subscriptions",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "4.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6738863257",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Get Plus features with weekly billing",
+              "displayName" : "Plus Weekly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "plus_weekly",
+          "recurringSubscriptionPeriod" : "P1W",
+          "referenceName" : "Plus Weekly",
+          "subscriptionGroupID" : "21584353",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "14.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6738863426",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Get Plus features with monthly billing",
+              "displayName" : "Plus Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "plus_monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Plus Monthly",
+          "subscriptionGroupID" : "21584353",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "9.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "6738863613",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Get Premium features with weekly billing",
+              "displayName" : "Premium Weekly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "premium_weekly",
+          "recurringSubscriptionPeriod" : "P1W",
+          "referenceName" : "Premium Weekly",
+          "subscriptionGroupID" : "21584353",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "29.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "6738863768",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Get Premium features with monthly billing",
+              "displayName" : "Premium Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "premium_monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Premium Monthly",
+          "subscriptionGroupID" : "21584353",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

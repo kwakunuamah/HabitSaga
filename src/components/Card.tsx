@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, ViewStyle, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, ViewStyle, TouchableOpacity, StyleProp } from 'react-native';
 import { theme } from '../theme';
 
 interface CardProps {
     children: React.ReactNode;
-    style?: ViewStyle;
+    style?: StyleProp<ViewStyle>;
     onPress?: () => void;
 }
 
@@ -24,7 +24,9 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         padding: theme.spacing.l,
         marginBottom: theme.spacing.m,
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: theme.colors.border,
+
+
     },
 });

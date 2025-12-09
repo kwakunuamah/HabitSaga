@@ -1,0 +1,13 @@
+appId: com.habitsaga.app
+---
+# Complete E2E User Journey Test
+# Runs all flows in sequence: Onboarding → Goal → Check-ins → Finale → New Saga → Profile
+
+- runFlow: 01-onboarding.yaml
+- runFlow: 02-goal-creation.yaml
+- runFlow: 03-check-in-completed.yaml
+- runFlow: 04-check-in-partial.yaml
+- runFlow: 05-check-in-missed.yaml
+- runFlow: 06-saga-finale.yaml
+- runFlow: 07-new-saga.yaml
+- runFlow: 08-profile-edit.yaml

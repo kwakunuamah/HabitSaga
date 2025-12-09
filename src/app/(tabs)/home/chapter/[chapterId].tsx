@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View, Share } from 'react-native';
+import { ScrollView, StyleSheet, View, Share, Image } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { ScreenWrapper } from '../../../../components/ScreenWrapper';
 import { AppText } from '../../../../components/AppText';
@@ -13,12 +13,11 @@ export default function ChapterDetail() {
     const [chapter, setChapter] = useState<Chapter | null>(null);
 
     useEffect(() => {
-        // In a real app, fetch specific chapter. For now, we mock fetching from the list or just use the mock data directly if we had a getChapterById.
-        // I'll just mock it by fetching all and finding.
         const load = async () => {
-            const all = await habitSagaApi.fetchChapters('1'); // Mock goal id
-            const found = all.find(c => c.id === chapterId) || all[0];
-            setChapter(found);
+            if (typeof chapterId === 'string') {
+                const data = await habitSagaApi.fetchChapter(chapterId);
+                setChapter(data);
+            }
         }
         load();
     }, [chapterId]);
@@ -27,7 +26,7 @@ export default function ChapterDetail() {
         if (!chapter) return;
         try {
             await Share.share({
-                message: `Check out Chapter ${chapter.chapter_index}: ${chapter.chapter_title} in my Habit Saga!`,
+                message: `Check out Chapter ${chapter.chapter_index}: ${chapter.chapter_title} in my Habit Chronicle!`,
                 // url: chapter.image_url // if we had one
             });
         } catch (error) {
@@ -41,8 +40,15 @@ export default function ChapterDetail() {
         <ScreenWrapper>
             <ScrollView contentContainerStyle={styles.content}>
                 <View style={styles.panel}>
-                    {/* Placeholder for Image Panel */}
-                    <AppText style={{ color: theme.colors.textSecondary }}>[Comic Panel Image]</AppText>
+                    {chapter.image_url ? (
+                        <Image
+                            source={{ uri: chapter.image_url }}
+                            style={styles.panelImage}
+                            resizeMode="cover"
+                        />
+                    ) : (
+                        <AppText style={{ color: theme.colors.textSecondary }}>[No Image]</AppText>
+                    )}
                 </View>
 
                 <AppText variant="headingL" style={styles.title}>{chapter.chapter_title}</AppText>
@@ -75,6 +81,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: theme.spacing.l,
+        overflow: 'hidden',
+    },
+    panelImage: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 12,
     },
     title: {
         marginBottom: theme.spacing.s,

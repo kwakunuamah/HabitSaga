@@ -1,0 +1,52 @@
+appId: com.habitsaga.app
+---
+# Test: Check-in Flow - Partial Completion
+# Covers: Mixed task outcomes → Barrier reflection → Micro-plan suggestion
+
+- launchApp
+
+# Navigate to check-in
+- tapOn: "Home"
+- tapOn: "Check In"
+
+# Select mixed outcomes
+- assertVisible: "How did it go?"
+
+# Task-based: Mix of full, tiny, and missed
+- runFlow:
+    when:
+      visible: "Read 5 pages before bed"
+    commands:
+      - tapOn:
+          id: "task-0-full"
+      - tapOn:
+          id: "task-1-tiny"
+      - tapOn:
+          id: "task-2-none"
+
+# Legacy flow: Partial
+- runFlow:
+    when:
+      visible: "Did you complete your habit?"
+    commands:
+      - tapOn: "Partly"
+
+- tapOn: "Next"
+
+# Reflection for partial outcome
+- assertVisible: "What got in the way?"
+- tapOn: "Too tired / stressed"
+- tapOn: "Notes"
+- inputText: "Got through most tasks but ran out of energy for notes"
+- tapOn: "What small change could help?"
+- inputText: "Try starting right after dinner instead of later"
+- tapOn: "Submit"
+
+# Wait for chapter generation
+- waitForAnimationToEnd:
+    timeout: ${AI_GENERATION_WAIT}
+
+# Verify chapter includes encouragement with micro-plan
+- assertVisible: "Chapter"
+- assertVisible: "Next time, try"
+- tapOn: "Back to saga"

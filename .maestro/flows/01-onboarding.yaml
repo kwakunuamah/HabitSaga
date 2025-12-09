@@ -1,0 +1,47 @@
+appId: com.habitsaga.app
+---
+# Test: Complete Onboarding Flow
+# Covers: Sign up → Avatar selection → Profile setup → Tutorial
+
+- launchApp
+- assertVisible: "Welcome to Habit Saga"
+
+# Step 1: Navigate to signup
+- tapOn: "Get Started"
+- assertVisible: "Create Account"
+
+# Step 2: Sign up with test credentials
+- tapOn: "Email"
+- inputText: "${TEST_EMAIL}"
+- tapOn: "Password"
+- inputText: "${TEST_PASSWORD}"
+- tapOn: "Sign Up"
+
+# Wait for navigation to onboarding
+- waitForAnimationToEnd:
+    timeout: ${MEDIUM_WAIT}
+
+# Step 3: Avatar selection (skip selfie for E2E test)
+- assertVisible: "Choose Your Hero"
+- tapOn: "Skip for now"
+
+# Step 4: Profile setup
+- assertVisible: "Tell us about yourself"
+- tapOn: "Name"
+- inputText: "E2E Test User"
+- tapOn: "Bio"
+- inputText: "Automated test account for end-to-end testing"
+- tapOn: "Next"
+
+# Step 5: Tutorial screens
+- assertVisible: "Welcome"
+- tapOn: "Next"
+- waitForAnimationToEnd:
+    timeout: ${SHORT_WAIT}
+- tapOn: "Next"
+- waitForAnimationToEnd:
+    timeout: ${SHORT_WAIT}
+- tapOn: "Get Started"
+
+# Step 6: Verify landing on saga start screen
+- assertVisible: "Start Your First Saga"

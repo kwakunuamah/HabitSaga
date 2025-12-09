@@ -1,12 +1,19 @@
 import React, { createContext, useContext, useState } from 'react';
-import { Cadence, Theme } from '../../types';
+import { Cadence, ThemeType } from '../../types';
 
 interface WizardData {
     title: string;
     target_date: string;
     cadence: Cadence;
-    theme: Theme;
+    theme: ThemeType;
     selfie_uri?: string;
+    context_current_frequency?: string;
+    context_biggest_blocker?: string;
+    context_current_status?: string;
+    context_notes?: string;
+    context_past_efforts?: string;
+    habit_cue_time_window?: string;
+    habit_cue_location?: string;
 }
 
 interface WizardContextType {
@@ -45,3 +52,5 @@ export const WizardProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         </WizardContext.Provider>
     );
 };
+
+export default WizardProvider;
