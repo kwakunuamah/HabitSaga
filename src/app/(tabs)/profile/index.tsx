@@ -331,7 +331,7 @@ export default function Profile() {
 
                     <View style={styles.limitsContainer}>
                         <View style={styles.limitRow}>
-                            <AppText variant="caption" style={{ color: subTextColor }}>Active Sagas</AppText>
+                            <AppText variant="caption" style={{ color: subTextColor }}>Active Stories</AppText>
                             <AppText variant="caption" style={[styles.limitValue, { color: textColor }]}>
                                 {activeSagaCount !== null ? `${activeSagaCount} / ` : ''}{featureLimits.activeSagas}
                             </AppText>
@@ -340,12 +340,6 @@ export default function Profile() {
                             <AppText variant="caption" style={{ color: subTextColor }}>Images/Month</AppText>
                             <AppText variant="caption" style={[styles.limitValue, { color: textColor }]}>
                                 {featureLimits.imagesPerMonth}
-                            </AppText>
-                        </View>
-                        <View style={styles.limitRow}>
-                            <AppText variant="caption" style={{ color: subTextColor }}>All Themes</AppText>
-                            <AppText variant="caption" style={[styles.limitValue, { color: textColor }]}>
-                                {featureLimits.hasAllThemes ? 'Yes' : 'No'}
                             </AppText>
                         </View>
                     </View>

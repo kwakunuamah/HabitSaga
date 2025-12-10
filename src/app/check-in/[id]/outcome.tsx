@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ScreenWrapper } from '../../../components/ScreenWrapper';
 import { AppText } from '../../../components/AppText';
@@ -171,7 +172,7 @@ function TaskCheckInCard({ task, outcome, onOutcomeChange }: TaskCheckInCardProp
                     onPress={() => onOutcomeChange('full')}
                     activeOpacity={0.7}
                 >
-                    <AppText style={styles.outcomeIcon}>✅</AppText>
+                    <MaterialCommunityIcons name="check-circle" size={28} color="#22c55e" />
                     <AppText
                         variant="bodySmall"
                         style={[
@@ -191,7 +192,7 @@ function TaskCheckInCard({ task, outcome, onOutcomeChange }: TaskCheckInCardProp
                     onPress={() => onOutcomeChange('tiny')}
                     activeOpacity={0.7}
                 >
-                    <AppText style={styles.outcomeIcon}>🌓</AppText>
+                    <MaterialCommunityIcons name="circle-half-full" size={28} color="#f59e0b" />
                     <AppText
                         variant="bodySmall"
                         style={[
@@ -211,7 +212,7 @@ function TaskCheckInCard({ task, outcome, onOutcomeChange }: TaskCheckInCardProp
                     onPress={() => onOutcomeChange('missed')}
                     activeOpacity={0.7}
                 >
-                    <AppText style={styles.outcomeIcon}>❌</AppText>
+                    <MaterialCommunityIcons name="close-circle-outline" size={28} color="#ef4444" />
                     <AppText
                         variant="bodySmall"
                         style={[
@@ -240,7 +241,7 @@ function LegacyOutcomeScreen({ goalId, router }: { goalId: string, router: any }
         }
     };
 
-    const OutcomeOption = ({ outcome, label, icon }: { outcome: 'completed' | 'partial' | 'missed'; label: string; icon: string }) => (
+    const OutcomeOption = ({ outcome, label, icon, color }: { outcome: 'completed' | 'partial' | 'missed'; label: string; icon: 'check-circle' | 'circle-half-full' | 'close-circle-outline'; color: string }) => (
         <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => setSelectedOutcome(outcome)}
@@ -251,7 +252,7 @@ function LegacyOutcomeScreen({ goalId, router }: { goalId: string, router: any }
                     selectedOutcome === outcome && styles.selectedCard
                 ]}
             >
-                <AppText style={styles.optionIcon}>{icon}</AppText>
+                <MaterialCommunityIcons name={icon} size={32} color={color} style={styles.optionIcon} />
                 <AppText
                     variant="headingS"
                     style={[
@@ -273,9 +274,9 @@ function LegacyOutcomeScreen({ goalId, router }: { goalId: string, router: any }
                 </View>
 
                 <View style={styles.optionsContainer}>
-                    <OutcomeOption outcome="completed" label="Yes, I did it" icon="✅" />
-                    <OutcomeOption outcome="partial" label="Partly" icon="🌓" />
-                    <OutcomeOption outcome="missed" label="Not this time" icon="❌" />
+                    <OutcomeOption outcome="completed" label="Yes, I did it" icon="check-circle" color="#22c55e" />
+                    <OutcomeOption outcome="partial" label="Partly" icon="circle-half-full" color="#f59e0b" />
+                    <OutcomeOption outcome="missed" label="Not this time" icon="close-circle-outline" color="#ef4444" />
                 </View>
 
                 <View style={styles.hintContainer}>

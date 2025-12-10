@@ -34,7 +34,7 @@ export function RevenueCatProvider({ children, userId }: RevenueCatProviderProps
     const [featureLimits, setFeatureLimits] = useState<FeatureLimits>({
         activeSagas: 2,
         imagesPerMonth: 4,
-        hasAllThemes: false,
+        hasAllThemes: true,
         hasWatermark: true,
     });
     const [isLoading, setIsLoading] = useState(true);

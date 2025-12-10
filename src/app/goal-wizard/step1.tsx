@@ -61,7 +61,7 @@ export default function Step1() {
 
                     <TextInput
                         style={styles.input}
-                        placeholder="e.g. Gain 10 pounds of muscle, Read 20 minutes every day..."
+                        placeholder="e.g. Run my first 5K, read 12 books this year, or build a consistent morning routine..."
                         placeholderTextColor={theme.colors.textSecondary}
                         multiline
                         maxLength={200}

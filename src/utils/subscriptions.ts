@@ -193,7 +193,7 @@ export async function getFeatureLimits() {
         free: {
             activeSagas: 2,
             imagesPerMonth: 4,
-            hasAllThemes: false,
+            hasAllThemes: true,
             hasWatermark: true,
         },
         plus: {

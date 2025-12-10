@@ -47,7 +47,7 @@ export default function SubscriptionTerms() {
                     <Text style={styles.paragraph}>
                         • Weekly: $3.99/week{'\n'}
                         • Monthly: $9.99/month{'\n'}
-                        • Up to 3 active sagas{'\n'}
+                        • Up to 3 active stories{'\n'}
                         • ~10 AI-generated images per month{'\n'}
                         • Access to all themes{'\n'}
                         • Enhanced sharing features
@@ -57,7 +57,7 @@ export default function SubscriptionTerms() {
                     <Text style={styles.paragraph}>
                         • Weekly: $6.99/week{'\n'}
                         • Monthly: $14.99/month{'\n'}
-                        • Up to 5+ active sagas{'\n'}
+                        • Up to 5+ active stories{'\n'}
                         • ~30 AI-generated images per month{'\n'}
                         • All themes + early access to new theme packs{'\n'}
                         • Best sharing features with minimal watermark{'\n'}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View, TouchableOpacity, RefreshControl, Modal } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { CachedImage } from '../../../components/CachedImage';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ScreenWrapper } from '../../../components/ScreenWrapper';
@@ -139,7 +140,7 @@ export default function GoalHome() {
                 {/* Saga Title & Header */}
                 <View style={styles.header}>
                     <View style={styles.headerTopRow}>
-                        <AppText variant="caption" style={styles.currentLabel}>Current Saga</AppText>
+                        <AppText variant="caption" style={styles.currentLabel}>Current Story</AppText>
                         <View style={[styles.statusBadge, { borderColor: isActive ? theme.colors.success : theme.colors.textSecondary }]}>
                             <AppText style={[styles.statusText, { color: isActive ? theme.colors.success : theme.colors.textSecondary }]}>
                                 {isActive ? 'Active' : 'Completed'}
@@ -181,15 +182,15 @@ export default function GoalHome() {
                                 <AppText variant="body" style={styles.habitLabel}>{habit.label}</AppText>
                                 <View style={styles.habitMetrics}>
                                     <View style={styles.metricItem}>
-                                        <AppText style={styles.metricIcon}>✅</AppText>
+                                        <MaterialCommunityIcons name="check-circle" size={18} color="#22c55e" />
                                         <AppText style={styles.metricCount}>{habit.metrics.total_full_completions}</AppText>
                                     </View>
                                     <View style={styles.metricItem}>
-                                        <AppText style={styles.metricIcon}>🌓</AppText>
+                                        <MaterialCommunityIcons name="circle-half-full" size={18} color="#f59e0b" />
                                         <AppText style={styles.metricCount}>{habit.metrics.total_tiny_completions}</AppText>
                                     </View>
                                     <View style={styles.metricItem}>
-                                        <AppText style={styles.metricIcon}>❌</AppText>
+                                        <MaterialCommunityIcons name="close-circle-outline" size={18} color="#ef4444" />
                                         <AppText style={styles.metricCount}>{habit.metrics.total_missed}</AppText>
                                     </View>
                                 </View>
@@ -265,9 +266,15 @@ export default function GoalHome() {
                                     <AppText style={styles.chapterLabel}>
                                         {new Date(chapter.date).toLocaleDateString()}
                                     </AppText>
-                                    <AppText style={styles.outcomeIcon}>
-                                        {chapter.outcome === 'completed' ? '✅' : chapter.outcome === 'partial' ? '🌓' : chapter.outcome === 'missed' ? '❌' : '⭐'}
-                                    </AppText>
+                                    {chapter.outcome === 'origin' ? (
+                                        <MaterialCommunityIcons name="star" size={16} color="#eab308" />
+                                    ) : chapter.outcome === 'completed' ? (
+                                        <MaterialCommunityIcons name="check-circle" size={16} color="#22c55e" />
+                                    ) : chapter.outcome === 'partial' ? (
+                                        <MaterialCommunityIcons name="circle-half-full" size={16} color="#f59e0b" />
+                                    ) : (
+                                        <MaterialCommunityIcons name="close-circle-outline" size={16} color="#ef4444" />
+                                    )}
                                 </View>
 
                                 <AppText variant="headingS" style={styles.chapterTitle} numberOfLines={1}>
@@ -406,9 +413,15 @@ export default function GoalHome() {
                                             <AppText style={styles.chapterLabel}>
                                                 {new Date(chapter.date).toLocaleDateString()}
                                             </AppText>
-                                            <AppText style={styles.outcomeIcon}>
-                                                {chapter.outcome === 'completed' ? '✅' : chapter.outcome === 'partial' ? '🌓' : chapter.outcome === 'missed' ? '❌' : '⭐'}
-                                            </AppText>
+                                            {chapter.outcome === 'origin' ? (
+                                                <MaterialCommunityIcons name="star" size={16} color="#eab308" />
+                                            ) : chapter.outcome === 'completed' ? (
+                                                <MaterialCommunityIcons name="check-circle" size={16} color="#22c55e" />
+                                            ) : chapter.outcome === 'partial' ? (
+                                                <MaterialCommunityIcons name="circle-half-full" size={16} color="#f59e0b" />
+                                            ) : (
+                                                <MaterialCommunityIcons name="close-circle-outline" size={16} color="#ef4444" />
+                                            )}
                                         </View>
                                         <AppText variant="headingS" style={styles.chapterTitle} numberOfLines={1}>
                                             {chapter.chapter_title || `Chapter ${chapter.chapter_index}`}

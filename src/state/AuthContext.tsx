@@ -96,66 +96,48 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     useEffect(() => {
-        // Check active session
-        const initSession = async () => {
-            let foundSession: Session | null = null;
+        let initialAuthResolved = false;
 
-            try {
-                // Create a timeout promise for SESSION check only (5s should be plenty)
-                const sessionTimeoutPromise = new Promise<never>((_, reject) => {
-                    setTimeout(() => reject(new Error('Session check timed out')), 5000);
-                });
-
-                // Race the session check against the timeout
-                const sessionPromise = supabase.auth.getSession();
-                const result = await Promise.race([sessionPromise, sessionTimeoutPromise]);
-                const { data: { session } } = result;
-
-                foundSession = session;
-                setSession(session);
-            } catch (error) {
-                logger.error('AuthContext: Session check error or timeout:', error);
-                // Session check failed - assume no session
-                setSession(null);
-                setProfile(null);
-                setProfileStatus('error');
+        // Fallback timeout in case onAuthStateChange never fires
+        const fallbackTimeout = setTimeout(() => {
+            if (!initialAuthResolved) {
+                logger.warn('AuthContext: Auth timeout - onAuthStateChange did not fire within 10s');
+                initialAuthResolved = true;
                 setLoading(false);
-                return;
             }
+        }, 10000);
 
-            // Now fetch profile separately - don't let session timeout affect this
-            // Profile fetch has its own retry logic
-            if (foundSession?.user) {
-                try {
-                    await fetchProfile(foundSession.user.id);
-                } catch (error) {
-                    logger.error('AuthContext: Profile fetch failed:', error);
-                    // Profile failed but we still have a valid session
-                    // profileStatus is already set by fetchProfile
-                }
-            } else {
-                setProfileStatus('not_found');
-            }
+        // Listen for auth changes - this is the source of truth for session state
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+            logger.log('AuthContext: onAuthStateChange event:', event, 'session:', !!session);
 
-            logger.log('AuthContext: Setting loading to false');
-            setLoading(false);
-        };
-
-        initSession();
-
-        // Listen for auth changes
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
             setSession(session);
+
             if (session?.user) {
                 await fetchProfile(session.user.id);
             } else {
                 setProfile(null);
-                setProfileStatus('not_found');
+                // Only set 'not_found' if this is from INITIAL_SESSION event (no session persisted)
+                // or from an explicit sign-out. For other events, keep as 'checking'.
+                if (event === 'INITIAL_SESSION' || event === 'SIGNED_OUT') {
+                    setProfileStatus('not_found');
+                }
             }
-            setLoading(false);
+
+            // Only resolve initial auth on INITIAL_SESSION event
+            // This event fires ONCE after Supabase has checked AsyncStorage for persisted session
+            if (event === 'INITIAL_SESSION' && !initialAuthResolved) {
+                initialAuthResolved = true;
+                clearTimeout(fallbackTimeout);
+                logger.log('AuthContext: INITIAL_SESSION resolved, setting loading to false');
+                setLoading(false);
+            }
         });
 
-        return () => subscription.unsubscribe();
+        return () => {
+            clearTimeout(fallbackTimeout);
+            subscription.unsubscribe();
+        };
     }, []);
 
     const signOut = async () => {

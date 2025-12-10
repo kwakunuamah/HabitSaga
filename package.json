@@ -12,7 +12,8 @@
     "test:e2e:onboarding": "maestro test .maestro/flows/01-onboarding.yaml",
     "test:e2e:goal": "maestro test .maestro/flows/02-goal-creation.yaml",
     "test:e2e:checkin": "maestro test .maestro/flows/03-check-in-completed.yaml",
-    "test:reset-db": "./reset-e2e-db.sh"
+    "test:reset-db": "./reset-e2e-db.sh",
+    "seed:demo": "npx tsx seed-demo-account.ts"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.2.0",
