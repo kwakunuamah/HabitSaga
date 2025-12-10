@@ -8,6 +8,10 @@ import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import type { ErrorResponse } from '../_shared/types.ts';
 import { supabaseAdmin } from '../_shared/supabaseAdmin.ts';
+import { initSentry, captureException, flush } from '../_shared/sentry.ts';
+
+// Initialize Sentry for this Edge Function
+initSentry('start-season-two');
 
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -18,6 +22,8 @@ serve(async (req) => {
     if (req.method === 'OPTIONS') {
         return new Response('ok', { headers: corsHeaders });
     }
+
+    let userId: string | undefined;
 
     try {
         const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
@@ -123,6 +129,8 @@ serve(async (req) => {
 
     } catch (error) {
         console.error('Error in start-season-two:', error);
+        captureException(error, { userId });
+        await flush();
         return new Response(
             JSON.stringify({ error: 'Internal Server Error' }),
             { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

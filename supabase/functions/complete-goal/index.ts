@@ -13,6 +13,10 @@ import type {
 import { generateFinaleNarrative } from '../_shared/geminiText.ts';
 import { generatePanelImage } from '../_shared/geminiImage.ts';
 import { supabaseAdmin } from '../_shared/supabaseAdmin.ts';
+import { initSentry, captureException, flush } from '../_shared/sentry.ts';
+
+// Initialize Sentry for this Edge Function
+initSentry('complete-goal');
 
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -24,6 +28,8 @@ serve(async (req) => {
     if (req.method === 'OPTIONS') {
         return new Response('ok', { headers: corsHeaders });
     }
+
+    let userId: string | undefined;
 
     try {
         const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
@@ -263,6 +269,8 @@ serve(async (req) => {
 
     } catch (error) {
         console.error('Error in complete-goal:', error);
+        captureException(error, { userId });
+        await flush();
         return new Response(
             JSON.stringify({
                 error: 'Internal Server Error',

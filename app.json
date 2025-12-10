@@ -46,6 +46,14 @@
           "color": "#ffffff",
           "sounds": []
         }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "react-native-habitchronicle",
+          "organization": "black-star-labs-9j"
+        }
       ]
     ],
     "extra": {

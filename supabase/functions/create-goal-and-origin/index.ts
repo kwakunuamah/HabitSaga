@@ -16,6 +16,10 @@ import { generateOriginStory } from '../_shared/geminiText.ts';
 import { generateHabitPlan } from '../_shared/habitPlanGeneration.ts';
 import { supabaseAdmin } from '../_shared/supabaseAdmin.ts';
 import { logGoalContentForReview } from '../_shared/contentModeration.ts';
+import { initSentry, captureException, flush } from '../_shared/sentry.ts';
+
+// Initialize Sentry for this Edge Function
+initSentry('create-goal-and-origin');
 
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -27,6 +31,8 @@ serve(async (req) => {
     if (req.method === 'OPTIONS') {
         return new Response('ok', { headers: corsHeaders });
     }
+
+    let userId: string | undefined;
 
     try {
         // Initialize Supabase client
@@ -376,6 +382,8 @@ serve(async (req) => {
         });
     } catch (error) {
         console.error('Error in create-goal-and-origin:', error);
+        captureException(error, { userId });
+        await flush();
         return new Response(
             JSON.stringify({
                 error: 'Internal Server Error',

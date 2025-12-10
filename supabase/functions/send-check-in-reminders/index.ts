@@ -6,6 +6,10 @@
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { initSentry, captureException, flush } from '../_shared/sentry.ts';
+
+// Initialize Sentry for this Edge Function
+initSentry('send-check-in-reminders');
 
 const EXPO_PUSH_API_URL = 'https://exp.host/--/api/v2/push/send';
 
@@ -87,7 +91,9 @@ serve(async (req) => {
 
     } catch (error) {
         console.error('Error sending reminders:', error);
-        return new Response(JSON.stringify({ error: error.message }), {
+        captureException(error);
+        await flush();
+        return new Response(JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },
         });

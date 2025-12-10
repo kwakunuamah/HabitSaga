@@ -10,6 +10,10 @@ import type {
     UpdateNotificationsResponse,
     ErrorResponse,
 } from '../_shared/types.ts';
+import { initSentry, captureException, flush } from '../_shared/sentry.ts';
+
+// Initialize Sentry for this Edge Function
+initSentry('update-notifications');
 
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -21,6 +25,8 @@ serve(async (req) => {
     if (req.method === 'OPTIONS') {
         return new Response('ok', { headers: corsHeaders });
     }
+
+    let userId: string | undefined;
 
     try {
         // Initialize Supabase client
@@ -116,6 +122,8 @@ serve(async (req) => {
         });
     } catch (error) {
         console.error('Error in update-notifications:', error);
+        captureException(error, { userId });
+        await flush();
         return new Response(
             JSON.stringify({
                 error: 'Internal Server Error',
@@ -129,5 +137,3 @@ serve(async (req) => {
         );
     }
 });
-
-
