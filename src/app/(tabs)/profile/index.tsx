@@ -415,15 +415,19 @@ export default function Profile() {
 
                 {/* Legal Links */}
                 <View style={styles.legalSection}>
-                    <Pressable onPress={() => router.push('/privacy-policy' as any)} style={styles.legalRow}>
+                    <Pressable onPress={() => Linking.openURL('https://habitchronicle.com/legal/privacy-policy')} style={styles.legalRow}>
                         <AppText style={styles.legalLink}>Privacy Policy</AppText>
                         <ChevronRight size={16} color={colors.textSecondary} />
                     </Pressable>
-                    <Pressable onPress={() => router.push('/terms-of-service' as any)} style={styles.legalRow}>
+                    <Pressable onPress={() => Linking.openURL('https://habitchronicle.com/legal/terms-of-service')} style={styles.legalRow}>
                         <AppText style={styles.legalLink}>Terms of Service</AppText>
                         <ChevronRight size={16} color={colors.textSecondary} />
                     </Pressable>
-                    <Pressable onPress={() => Linking.openURL('https://habitsaga.com')} style={styles.legalRow}>
+                    <Pressable onPress={() => Linking.openURL('https://habitchronicle.com/support')} style={styles.legalRow}>
+                        <AppText style={styles.legalLink}>Support</AppText>
+                        <ChevronRight size={16} color={colors.textSecondary} />
+                    </Pressable>
+                    <Pressable onPress={() => Linking.openURL('https://habitchronicle.com')} style={styles.legalRow}>
                         <AppText style={styles.legalLink}>Website</AppText>
                         <ChevronRight size={16} color={colors.textSecondary} />
                     </Pressable>
