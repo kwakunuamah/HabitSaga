@@ -368,6 +368,10 @@ body {
     gap: 32px;
 }
 
+.steps-grid-6 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
 .step {
     position: relative;
 }
