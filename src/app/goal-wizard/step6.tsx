@@ -109,7 +109,7 @@ export default function Step6() {
                 <WizardProgressBar currentStep={11} totalSteps={12} />
                 <ActivityIndicator size="large" color={theme.colors.primary} />
                 <AppText style={styles.loadingText}>Summoning your origin saga…</AppText>
-                <AppText variant="caption">Consulting the oracle (Gemini)...</AppText>
+                <AppText variant="caption">Consulting the oracle...</AppText>
             </ScreenWrapper>
         );
     }

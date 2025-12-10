@@ -22,7 +22,7 @@ export default function TermsOfService() {
             {/* Content */}
             <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
                 <Text style={styles.title}>Habit Chronicle Terms of Service</Text>
-                <Text style={styles.lastUpdated}>Last Updated: November 30, 2025</Text>
+                <Text style={styles.lastUpdated}>Last Updated: December 10, 2025</Text>
 
                 {/* Introduction */}
                 <View style={styles.section}>

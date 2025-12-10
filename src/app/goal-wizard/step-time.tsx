@@ -7,6 +7,7 @@ import { Button } from '../../components/Button';
 import { WizardProgressBar } from '../../components/WizardProgressBar';
 import { theme } from '../../theme';
 import { useWizard } from './WizardContext';
+import { useWizardCancel } from './useWizardCancel';
 
 type TimeWindow = 'morning' | 'midday' | 'after_work' | 'night_before_bed';
 type Location = 'home' | 'work_school' | 'commuting' | 'gym' | 'other';
@@ -29,6 +30,7 @@ const LOCATIONS: { value: Location; label: string }[] = [
 export default function CueContextStep() {
     const router = useRouter();
     const { data, updateData } = useWizard();
+    const { handleCancel } = useWizardCancel();
     const [timeWindow, setTimeWindow] = useState<TimeWindow | undefined>(
         data.habit_cue_time_window as TimeWindow | undefined
     );
@@ -91,12 +93,20 @@ export default function CueContextStep() {
                     </View>
                 </View>
 
-                <Button
-                    title="Next"
-                    onPress={handleNext}
-                    disabled={!canProceed}
-                    style={styles.button}
-                />
+                <View style={styles.actions}>
+                    <Button
+                        title="Cancel"
+                        variant="outline"
+                        onPress={handleCancel}
+                        style={styles.cancelButton}
+                    />
+                    <Button
+                        title="Next"
+                        onPress={handleNext}
+                        disabled={!canProceed}
+                        style={styles.nextButton}
+                    />
+                </View>
             </ScrollView>
         </ScreenWrapper>
     );
@@ -146,7 +156,15 @@ const styles = StyleSheet.create({
     selectedChipText: {
         color: '#ffffff',
     },
-    button: {
+    actions: {
+        flexDirection: 'row',
+        gap: theme.spacing.m,
         marginTop: 'auto',
+    },
+    cancelButton: {
+        flex: 1,
+    },
+    nextButton: {
+        flex: 2,
     },
 });

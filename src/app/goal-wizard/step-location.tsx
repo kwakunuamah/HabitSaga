@@ -7,6 +7,7 @@ import { Button } from '../../components/Button';
 import { WizardProgressBar } from '../../components/WizardProgressBar';
 import { theme } from '../../theme';
 import { useWizard } from './WizardContext';
+import { useWizardCancel } from './useWizardCancel';
 
 type Location = 'home' | 'work_school' | 'commuting' | 'gym' | 'other';
 
@@ -21,6 +22,7 @@ const LOCATIONS: { value: Location; label: string }[] = [
 export default function StepLocation() {
     const router = useRouter();
     const { data, updateData } = useWizard();
+    const { handleCancel } = useWizardCancel();
     const [location, setLocation] = useState<Location | undefined>(
         data.habit_cue_location as Location | undefined
     );
@@ -73,11 +75,19 @@ export default function StepLocation() {
                     </TouchableOpacity>
                 </View>
 
-                <Button
-                    title="Next"
-                    onPress={handleNext}
-                    style={styles.button}
-                />
+                <View style={styles.actions}>
+                    <Button
+                        title="Cancel"
+                        variant="outline"
+                        onPress={handleCancel}
+                        style={styles.cancelButton}
+                    />
+                    <Button
+                        title="Next"
+                        onPress={handleNext}
+                        style={styles.nextButton}
+                    />
+                </View>
             </ScrollView>
         </ScreenWrapper>
     );
@@ -121,8 +131,16 @@ const styles = StyleSheet.create({
     selectedChipText: {
         color: '#ffffff',
     },
-    button: {
+    actions: {
+        flexDirection: 'row',
+        gap: theme.spacing.m,
         marginTop: 'auto',
+    },
+    cancelButton: {
+        flex: 1,
+    },
+    nextButton: {
+        flex: 2,
     },
     skipButton: {
         alignSelf: 'center',

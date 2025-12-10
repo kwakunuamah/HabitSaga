@@ -158,7 +158,7 @@ function TaskCheckInCard({ task, outcome, onOutcomeChange }: TaskCheckInCardProp
         <Card style={styles.taskCard}>
             <View style={styles.taskHeader}>
                 <AppText variant="headingS" style={styles.taskLabel}>{task.label}</AppText>
-                <AppText variant="bodySmall" style={styles.taskCue} numberOfLines={1} ellipsizeMode="tail">
+                <AppText variant="bodySmall" style={styles.taskCue}>
                     {cueText}
                 </AppText>
             </View>
@@ -180,7 +180,7 @@ function TaskCheckInCard({ task, outcome, onOutcomeChange }: TaskCheckInCardProp
                             outcome === 'full' && styles.outcomeLabelSelected
                         ]}
                     >
-                        Full
+                        Complete
                     </AppText>
                 </TouchableOpacity>
 
@@ -200,7 +200,7 @@ function TaskCheckInCard({ task, outcome, onOutcomeChange }: TaskCheckInCardProp
                             outcome === 'tiny' && styles.outcomeLabelSelected
                         ]}
                     >
-                        Tiny
+                        Partial
                     </AppText>
                 </TouchableOpacity>
 
@@ -220,7 +220,7 @@ function TaskCheckInCard({ task, outcome, onOutcomeChange }: TaskCheckInCardProp
                             outcome === 'missed' && styles.outcomeLabelSelected
                         ]}
                     >
-                        None
+                        Missed
                     </AppText>
                 </TouchableOpacity>
             </View>

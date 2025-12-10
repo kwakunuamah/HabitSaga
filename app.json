@@ -34,7 +34,7 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/HC_Favicon512.png"
     },
     "plugins": [
       "expo-router",

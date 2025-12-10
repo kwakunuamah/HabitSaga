@@ -9,12 +9,14 @@ import { Button } from '../../components/Button';
 import { WizardProgressBar } from '../../components/WizardProgressBar';
 import { theme } from '../../theme';
 import { useWizard } from './WizardContext';
+import { useWizardCancel } from './useWizardCancel';
 
 type AvatarMode = 'selfie' | 'upload' | 'skip' | null;
 
 export default function Step5() {
     const router = useRouter();
     const { updateData } = useWizard();
+    const { handleCancel } = useWizardCancel();
     const [image, setImage] = useState<string | null>(null);
     const [selectedMode, setSelectedMode] = useState<AvatarMode>(null);
 
@@ -51,6 +53,24 @@ export default function Step5() {
     };
 
     const pickImage = async () => {
+        // Request photo library permissions
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (status !== 'granted') {
+            Alert.alert(
+                'Permission Needed',
+                'Photo library access is required to upload a photo. Please enable it in your device settings.',
+                [
+                    { text: 'Cancel', style: 'cancel' },
+                    {
+                        text: 'Open Settings',
+                        onPress: () => Linking.openSettings()
+                    }
+                ]
+            );
+            return;
+        }
+
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -152,12 +172,21 @@ export default function Step5() {
                 </View>
 
                 <View style={styles.footer}>
-                    <Button
-                        title={selectedMode ? "Next" : "Choose an option above"}
-                        onPress={handleNext}
-                        disabled={!selectedMode}
-                        variant="primary"
-                    />
+                    <View style={styles.actions}>
+                        <Button
+                            title="Cancel"
+                            variant="outline"
+                            onPress={handleCancel}
+                            style={styles.cancelButton}
+                        />
+                        <Button
+                            title={selectedMode ? "Next" : "Choose an option above"}
+                            onPress={handleNext}
+                            disabled={!selectedMode}
+                            variant="primary"
+                            style={styles.nextButton}
+                        />
+                    </View>
                     {selectedMode === 'upload' && (
                         <AppText variant="caption" style={styles.guidanceText}>
                             💡 Choose a clear photo of your face for best results
@@ -233,6 +262,16 @@ const styles = StyleSheet.create({
     footer: {
         gap: theme.spacing.s,
         marginTop: 'auto',
+    },
+    actions: {
+        flexDirection: 'row',
+        gap: theme.spacing.m,
+    },
+    cancelButton: {
+        flex: 1,
+    },
+    nextButton: {
+        flex: 2,
     },
     guidanceText: {
         textAlign: 'center',

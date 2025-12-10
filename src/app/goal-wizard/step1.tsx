@@ -1,45 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
-import { habitSagaApi } from '../../api/habitSagaApi';
 import { ScreenWrapper } from '../../components/ScreenWrapper';
 import { AppText } from '../../components/AppText';
 import { Button } from '../../components/Button';
 import { WizardProgressBar } from '../../components/WizardProgressBar';
 import { theme } from '../../theme';
 import { useWizard } from './WizardContext';
+import { useWizardCancel } from './useWizardCancel';
 
 export default function Step1() {
     const router = useRouter();
     const { data, updateData } = useWizard();
+    const { handleCancel } = useWizardCancel();
     const [goal, setGoal] = useState(data.title || '');
-    const [hasGoals, setHasGoals] = useState(true); // Default to true to avoid flash
-
-    useEffect(() => {
-        checkGoals();
-    }, []);
-
-    const checkGoals = async () => {
-        try {
-            const goals = await habitSagaApi.fetchGoals();
-            setHasGoals(goals.length > 0);
-        } catch (e) {
-            // If error, assume no goals or just let them go to home (which handles empty state)
-            setHasGoals(false);
-        }
-    };
-
-    const handleCancel = () => {
-        if (hasGoals) {
-            router.replace('/(tabs)/home');
-        } else {
-            // If they have no goals, "Cancel" effectively means "I don't want to do this yet"
-            // But since they are logged in, Home is the only place. 
-            // Actually, if they have NO goals, Home shows the empty state which IS the "Start Saga" button.
-            // So redirecting to Home is actually fine, BUT let's make it explicit.
-            router.replace('/(tabs)/home');
-        }
-    };
 
     const handleNext = () => {
         if (!goal.trim()) return;

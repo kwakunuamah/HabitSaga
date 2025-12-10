@@ -8,10 +8,12 @@ import { Button } from '../../components/Button';
 import { WizardProgressBar } from '../../components/WizardProgressBar';
 import { theme } from '../../theme';
 import { useWizard } from './WizardContext';
+import { useWizardCancel } from './useWizardCancel';
 
 export default function Step2e() {
     const router = useRouter();
     const { data, updateData } = useWizard();
+    const { handleCancel } = useWizardCancel();
 
     const [notes, setNotes] = useState(data.context_notes || '');
 
@@ -48,11 +50,19 @@ export default function Step2e() {
                     </TouchableOpacity>
                 </View>
 
-                <Button
-                    title="Next"
-                    onPress={handleNext}
-                    style={styles.button}
-                />
+                <View style={styles.actions}>
+                    <Button
+                        title="Cancel"
+                        variant="outline"
+                        onPress={handleCancel}
+                        style={styles.cancelButton}
+                    />
+                    <Button
+                        title="Next"
+                        onPress={handleNext}
+                        style={styles.nextButton}
+                    />
+                </View>
             </ScrollView>
         </ScreenWrapper>
     );
@@ -74,8 +84,16 @@ const styles = StyleSheet.create({
         flex: 1,
         marginBottom: theme.spacing.xl,
     },
-    button: {
+    actions: {
+        flexDirection: 'row',
+        gap: theme.spacing.m,
         marginTop: 'auto',
+    },
+    cancelButton: {
+        flex: 1,
+    },
+    nextButton: {
+        flex: 2,
     },
     skipButton: {
         alignSelf: 'center',

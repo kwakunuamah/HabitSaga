@@ -155,6 +155,21 @@ export default function Profile() {
     };
 
     const pickImage = async () => {
+        // Request photo library permissions
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (status !== 'granted') {
+            Alert.alert(
+                'Permission Needed',
+                'Photo library access is required to upload a photo. Please enable it in your device settings.',
+                [
+                    { text: 'Cancel', style: 'cancel' },
+                    { text: 'Open Settings', onPress: () => Linking.openSettings() }
+                ]
+            );
+            return;
+        }
+
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -412,7 +427,7 @@ export default function Profile() {
                         <AppText style={styles.legalLink}>Website</AppText>
                         <ChevronRight size={16} color={colors.textSecondary} />
                     </Pressable>
-                    <Pressable onPress={() => Linking.openURL('mailto:info@habitsaga.com')} style={styles.legalRow}>
+                    <Pressable onPress={() => Linking.openURL('mailto:info@chroniclehabit.com')} style={styles.legalRow}>
                         <AppText style={styles.legalLink}>Contact Us</AppText>
                         <ChevronRight size={16} color={colors.textSecondary} />
                     </Pressable>
@@ -475,7 +490,7 @@ export default function Profile() {
                                     <Sparkles size={28} color={colors.primary} />
                                 </View>
                                 <AppText variant="body" style={styles.optionTitle}>Use Generated</AppText>
-                                <AppText variant="caption" style={styles.optionDescription}>AI creates for you</AppText>
+                                <AppText variant="caption" style={styles.optionDescription}>Auto-generated for you</AppText>
                             </TouchableOpacity>
                         </View>
 

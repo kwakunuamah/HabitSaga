@@ -13,13 +13,13 @@ const TIER_FEATURES = {
     plus: [
         { text: 'Unlimited text chapters', included: true },
         { text: '3 active stories', included: true },
-        { text: '10 AI images/month', included: true },
+        { text: '10 images/month', included: true },
         { text: 'Enhanced sharing', included: true },
     ],
     premium: [
         { text: 'Unlimited text chapters', included: true },
         { text: '5+ active stories', included: true },
-        { text: '30 AI images/month', included: true },
+        { text: '30 images/month', included: true },
         { text: 'No watermark on shares', included: true },
         { text: 'Deeper insights & recaps', included: true },
         { text: 'Priority for new features', included: true },

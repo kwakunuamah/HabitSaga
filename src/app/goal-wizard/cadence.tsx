@@ -8,6 +8,7 @@ import { WizardProgressBar } from '../../components/WizardProgressBar';
 import { theme } from '../../theme';
 import { useWizard } from './WizardContext';
 import { CadenceType } from '../../types';
+import { useWizardCancel } from './useWizardCancel';
 
 const CADENCE_OPTIONS: { type: CadenceType; label: string; description: string }[] = [
     { type: 'daily', label: 'Daily', description: 'I want to show up every day.' },
@@ -18,6 +19,7 @@ const CADENCE_OPTIONS: { type: CadenceType; label: string; description: string }
 export default function CadenceStep() {
     const router = useRouter();
     const { data, updateData } = useWizard();
+    const { handleCancel } = useWizardCancel();
     const [cadence, setCadence] = useState<CadenceType>(data.cadence.type);
 
     const handleNext = () => {
@@ -72,11 +74,19 @@ export default function CadenceStep() {
                     </View>
                 </View>
 
-                <Button
-                    title="Next"
-                    onPress={handleNext}
-                    style={styles.button}
-                />
+                <View style={styles.actions}>
+                    <Button
+                        title="Cancel"
+                        variant="outline"
+                        onPress={handleCancel}
+                        style={styles.cancelButton}
+                    />
+                    <Button
+                        title="Next"
+                        onPress={handleNext}
+                        style={styles.nextButton}
+                    />
+                </View>
             </ScrollView>
         </ScreenWrapper>
     );
@@ -122,7 +132,15 @@ const styles = StyleSheet.create({
     selectedCadenceText: {
         color: '#ffffff',
     },
-    button: {
+    actions: {
+        flexDirection: 'row',
+        gap: theme.spacing.m,
         marginTop: 'auto',
+    },
+    cancelButton: {
+        flex: 1,
+    },
+    nextButton: {
+        flex: 2,
     },
 });

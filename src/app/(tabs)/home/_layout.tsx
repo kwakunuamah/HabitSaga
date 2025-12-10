@@ -10,7 +10,7 @@ export default function HomeStack() {
                 contentStyle: { backgroundColor: theme.colors.background },
             }}
         >
-            <Stack.Screen name="index" options={{ title: 'My Sagas' }} />
+            <Stack.Screen name="index" options={{ title: 'My Stories' }} />
             <Stack.Screen name="[id]" options={{ title: 'Story Timeline' }} />
             <Stack.Screen name="chapter/[chapterId]" options={{ title: 'Chapter' }} />
         </Stack>

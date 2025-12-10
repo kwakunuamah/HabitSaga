@@ -16,7 +16,7 @@ export default function PrivacyPolicy() {
                 </Pressable>
 
                 <Text style={styles.title}>Habit Chronicle Privacy Policy</Text>
-                <Text style={styles.lastUpdated}>Last Updated: December 9, 2025</Text>
+                <Text style={styles.lastUpdated}>Last Updated: December 10, 2025</Text>
 
                 <Text style={styles.paragraph}>
                     <Text style={styles.bold}>Habit Chronicle</Text> ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application and related services (the "Service").

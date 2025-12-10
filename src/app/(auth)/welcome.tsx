@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Pressable, Linking } from 'react-native';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Sparkles } from 'lucide-react-native';
@@ -46,6 +46,16 @@ export default function Welcome() {
                         variant="secondary"
                         onPress={() => router.push('/(auth)/login')}
                     />
+
+                    <View style={styles.legalLinks}>
+                        <Pressable onPress={() => router.push('/privacy-policy' as any)}>
+                            <AppText variant="caption" style={styles.legalLink}>Privacy Policy</AppText>
+                        </Pressable>
+                        <AppText variant="caption" style={styles.legalSeparator}>•</AppText>
+                        <Pressable onPress={() => router.push('/terms-of-service' as any)}>
+                            <AppText variant="caption" style={styles.legalLink}>Terms of Service</AppText>
+                        </Pressable>
+                    </View>
                 </View>
             </View>
         </ScreenWrapper>
@@ -107,5 +117,20 @@ const styles = StyleSheet.create({
         fontSize: 12,
         textTransform: 'uppercase',
         letterSpacing: 1,
+    },
+    legalLinks: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: theme.spacing.xl,
+        gap: 8,
+    },
+    legalLink: {
+        color: theme.colors.textSecondary,
+        fontSize: 12,
+    },
+    legalSeparator: {
+        color: theme.colors.textSecondary,
+        fontSize: 12,
     },
 });

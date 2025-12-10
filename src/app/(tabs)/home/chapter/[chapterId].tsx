@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
         paddingVertical: theme.spacing.l,
     },
     panel: {
-        height: 300,
         backgroundColor: theme.colors.backgroundElevated,
         borderRadius: 12,
         justifyContent: 'center',
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
     },
     panelImage: {
         width: '100%',
-        height: '100%',
+        aspectRatio: 1, // Images are generated as 1:1 squares
         borderRadius: 12,
     },
     title: {

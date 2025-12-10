@@ -44,8 +44,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loading, setLoading] = useState(true);
 
     const fetchProfile = async (userId: string, retryCount = 0): Promise<boolean> => {
-        const MAX_RETRIES = 2;
-        const TIMEOUT_MS = 8000; // 8 seconds per attempt
+        const MAX_RETRIES = 1; // Reduced from 2 for faster failure
+        const TIMEOUT_MS = 5000; // 5 seconds per attempt (reduced from 8s)
 
         try {
             logger.log('🔍 Fetching profile for user:', userId, retryCount > 0 ? `(retry ${retryCount})` : '');
@@ -114,7 +114,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setSession(session);
 
             if (session?.user) {
-                await fetchProfile(session.user.id);
+                // Don't await - let profile fetch happen in background for faster perceived load
+                // The profile status will update when fetch completes
+                fetchProfile(session.user.id);
             } else {
                 setProfile(null);
                 // Only set 'not_found' if this is from INITIAL_SESSION event (no session persisted)
@@ -124,12 +126,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 }
             }
 
-            // Only resolve initial auth on INITIAL_SESSION event
-            // This event fires ONCE after Supabase has checked AsyncStorage for persisted session
-            if (event === 'INITIAL_SESSION' && !initialAuthResolved) {
+            // Resolve initial auth on INITIAL_SESSION or TOKEN_REFRESHED
+            // TOKEN_REFRESHED can fire first if there's a stored session that needs refreshing
+            // INITIAL_SESSION fires after Supabase has checked AsyncStorage for persisted session
+            const isInitialAuthEvent = event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED' || event === 'SIGNED_IN';
+            if (isInitialAuthEvent && !initialAuthResolved) {
                 initialAuthResolved = true;
                 clearTimeout(fallbackTimeout);
-                logger.log('AuthContext: INITIAL_SESSION resolved, setting loading to false');
+                logger.log(`AuthContext: Initial auth resolved via ${event}, setting loading to false`);
                 setLoading(false);
             }
         });

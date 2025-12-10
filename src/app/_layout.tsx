@@ -59,9 +59,6 @@ function RootLayoutNav() {
         if (loading) return;
 
         const inAuthGroup = segments[0] === '(auth)';
-        const inOnboardingGroup = segments[0] === 'onboarding';
-        const inGoalWizardGroup = segments[0] === 'goal-wizard';
-        const inTabsGroup = segments[0] === '(tabs)';
 
         if (!session && !inAuthGroup) {
             // Not logged in and not in auth screens
@@ -71,16 +68,15 @@ function RootLayoutNav() {
             if (!isRoot) {
                 router.replace('/');
             }
-        } else if (session && !profile?.display_name && !inOnboardingGroup) {
-            // Check for incomplete onboarding FIRST (before redirecting from auth)
-            // This prevents the race condition where new users skip onboarding
-            router.replace('/onboarding/tutorial');
         } else if (session && inAuthGroup) {
-            // Logged in with complete profile but in auth screens → redirect to home
-            router.replace('/(tabs)/home');
+            // Logged in but in auth screens → let index.tsx handle routing
+            // Don't redirect here to avoid race condition with profile loading
+            router.replace('/');
         }
-        // Allow free navigation within onboarding, goal-wizard, and tabs
-    }, [session, loading, segments, profile]);
+        // Note: Onboarding redirect is now handled in index.tsx to avoid race conditions
+        // with profile loading. The old logic here would redirect to onboarding before
+        // the profile was fetched, causing existing users to see onboarding.
+    }, [session, loading, segments]);
 
     return <Slot />;
 }

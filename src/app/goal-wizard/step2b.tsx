@@ -8,10 +8,12 @@ import { Button } from '../../components/Button';
 import { WizardProgressBar } from '../../components/WizardProgressBar';
 import { theme } from '../../theme';
 import { useWizard } from './WizardContext';
+import { useWizardCancel } from './useWizardCancel';
 
 export default function Step2b() {
     const router = useRouter();
     const { data, updateData } = useWizard();
+    const { handleCancel } = useWizardCancel();
 
     const [blocker, setBlocker] = useState(data.context_biggest_blocker || '');
 
@@ -45,11 +47,19 @@ export default function Step2b() {
                     />
                 </View>
 
-                <Button
-                    title="Next"
-                    onPress={handleNext}
-                    style={styles.button}
-                />
+                <View style={styles.actions}>
+                    <Button
+                        title="Cancel"
+                        variant="outline"
+                        onPress={handleCancel}
+                        style={styles.cancelButton}
+                    />
+                    <Button
+                        title="Next"
+                        onPress={handleNext}
+                        style={styles.nextButton}
+                    />
+                </View>
             </ScrollView>
         </ScreenWrapper>
     );
@@ -71,7 +81,15 @@ const styles = StyleSheet.create({
         flex: 1,
         marginBottom: theme.spacing.xl,
     },
-    button: {
+    actions: {
+        flexDirection: 'row',
+        gap: theme.spacing.m,
         marginTop: 'auto',
+    },
+    cancelButton: {
+        flex: 1,
+    },
+    nextButton: {
+        flex: 2,
     },
 });

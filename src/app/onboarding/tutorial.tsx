@@ -10,8 +10,8 @@ const { width } = Dimensions.get('window');
 
 const SLIDES = [
     {
-        title: 'Your Life, Epic Saga',
-        description: 'Turn your real-life goals into an evolving saga.',
+        title: 'Your Life, Epic Chronicle',
+        description: 'Turn your real-life goals into an evolving adventure.',
     },
     {
         title: 'Create Your Origin',

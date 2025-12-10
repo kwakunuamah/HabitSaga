@@ -53,6 +53,24 @@ export default function Avatar() {
     };
 
     const pickImage = async () => {
+        // Request photo library permissions
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (status !== 'granted') {
+            Alert.alert(
+                'Permission Needed',
+                'Photo library access is required to upload a photo. Please enable it in your device settings.',
+                [
+                    { text: 'Cancel', style: 'cancel' },
+                    {
+                        text: 'Open Settings',
+                        onPress: () => Linking.openSettings()
+                    }
+                ]
+            );
+            return;
+        }
+
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,

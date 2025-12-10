@@ -7,6 +7,7 @@ import { Button } from '../../components/Button';
 import { WizardProgressBar } from '../../components/WizardProgressBar';
 import { theme } from '../../theme';
 import { useWizard } from './WizardContext';
+import { useWizardCancel } from './useWizardCancel';
 
 const FREQUENCY_OPTIONS = [
     'Not at all yet',
@@ -18,6 +19,7 @@ const FREQUENCY_OPTIONS = [
 export default function Step2a() {
     const router = useRouter();
     const { data, updateData } = useWizard();
+    const { handleCancel } = useWizardCancel();
 
     const [frequency, setFrequency] = useState(data.context_current_frequency || '');
 
@@ -70,11 +72,19 @@ export default function Step2a() {
                     </View>
                 </View>
 
-                <Button
-                    title="Next"
-                    onPress={handleNext}
-                    style={styles.button}
-                />
+                <View style={styles.actions}>
+                    <Button
+                        title="Cancel"
+                        variant="outline"
+                        onPress={handleCancel}
+                        style={styles.cancelButton}
+                    />
+                    <Button
+                        title="Next"
+                        onPress={handleNext}
+                        style={styles.nextButton}
+                    />
+                </View>
             </ScrollView>
         </ScreenWrapper>
     );
@@ -125,7 +135,15 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         fontWeight: 'bold',
     },
-    button: {
+    actions: {
+        flexDirection: 'row',
+        gap: theme.spacing.m,
         marginTop: 'auto',
+    },
+    cancelButton: {
+        flex: 1,
+    },
+    nextButton: {
+        flex: 2,
     },
 });

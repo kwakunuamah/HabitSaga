@@ -7,7 +7,8 @@ import { Button } from '../../components/Button';
 import { WizardProgressBar } from '../../components/WizardProgressBar';
 import { theme } from '../../theme';
 import { useWizard } from './WizardContext';
-import { ThemeType } from '../../types'; // Ensure ThemeType is exported from types
+import { ThemeType } from '../../types';
+import { useWizardCancel } from './useWizardCancel';
 
 const THEMES: { type: ThemeType; label: string; image: any }[] = [
     { type: 'superhero', label: 'Comic Superhero', image: require('../../../assets/themes/theme_superhero.png') },
@@ -22,6 +23,7 @@ const THEMES: { type: ThemeType; label: string; image: any }[] = [
 export default function Step4() {
     const router = useRouter();
     const { data, updateData } = useWizard();
+    const { handleCancel } = useWizardCancel();
     const [selectedTheme, setSelectedTheme] = useState<ThemeType>(data.theme as ThemeType);
 
     const handleCreate = () => {
@@ -71,10 +73,19 @@ export default function Step4() {
             </ScrollView>
 
             <View style={styles.footer}>
-                <Button
-                    title="Create My Story"
-                    onPress={handleCreate}
-                />
+                <View style={styles.actions}>
+                    <Button
+                        title="Cancel"
+                        variant="outline"
+                        onPress={handleCancel}
+                        style={styles.cancelButton}
+                    />
+                    <Button
+                        title="Next"
+                        onPress={handleCreate}
+                        style={styles.nextButton}
+                    />
+                </View>
             </View>
         </ScreenWrapper>
     );
@@ -138,5 +149,15 @@ const styles = StyleSheet.create({
     },
     footer: {
         paddingVertical: theme.spacing.xl,
+    },
+    actions: {
+        flexDirection: 'row',
+        gap: theme.spacing.m,
+    },
+    cancelButton: {
+        flex: 1,
+    },
+    nextButton: {
+        flex: 2,
     },
 });

@@ -8,6 +8,7 @@ import { Button } from '../../components/Button';
 import { WizardProgressBar } from '../../components/WizardProgressBar';
 import { theme } from '../../theme';
 import { useWizard } from './WizardContext';
+import { useWizardCancel } from './useWizardCancel';
 
 const DATE_OPTIONS = [
     { label: 'About 1 month', months: 1 },
@@ -20,6 +21,7 @@ const DATE_OPTIONS = [
 export default function Step3() {
     const router = useRouter();
     const { data, updateData } = useWizard();
+    const { handleCancel } = useWizardCancel();
 
     const [targetDate, setTargetDate] = useState(new Date(data.target_date));
     const [selectedDateOption, setSelectedDateOption] = useState<string | number | null>(null);
@@ -151,11 +153,19 @@ export default function Step3() {
                     )}
                 </View>
 
-                <Button
-                    title="Next"
-                    onPress={handleNext}
-                    style={styles.button}
-                />
+                <View style={styles.actions}>
+                    <Button
+                        title="Cancel"
+                        variant="outline"
+                        onPress={handleCancel}
+                        style={styles.cancelButton}
+                    />
+                    <Button
+                        title="Next"
+                        onPress={handleNext}
+                        style={styles.nextButton}
+                    />
+                </View>
             </ScrollView>
         </ScreenWrapper>
     );
@@ -219,7 +229,15 @@ const styles = StyleSheet.create({
         padding: theme.spacing.m,
         alignItems: 'center',
     },
-    button: {
+    actions: {
+        flexDirection: 'row',
+        gap: theme.spacing.m,
         marginTop: 'auto',
+    },
+    cancelButton: {
+        flex: 1,
+    },
+    nextButton: {
+        flex: 2,
     },
 });

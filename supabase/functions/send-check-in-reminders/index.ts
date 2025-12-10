@@ -59,7 +59,7 @@ serve(async (req) => {
                         to: user.expo_push_token,
                         sound: 'default',
                         title: 'Time to Check In',
-                        body: 'Update your saga! Your hero is waiting.',
+                        body: 'Update your story! Your hero is waiting.',
                         data: { url: '/(tabs)/home' },
                     });
                 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet, Alert, Pressable, Linking } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ScreenWrapper } from '../../components/ScreenWrapper';
 import { AppText } from '../../components/AppText';
@@ -17,7 +17,7 @@ export default function SignUp() {
     const handleSignUp = async () => {
         setLoading(true);
         try {
-            const { data, error } = await supabase.auth.signUp({
+            const { error } = await supabase.auth.signUp({
                 email,
                 password,
             });
@@ -28,23 +28,8 @@ export default function SignUp() {
                 return;
             }
 
-            // Create user row in custom users table
-            if (data.user) {
-                const { error: insertError } = await supabase
-                    .from('users')
-                    .insert({
-                        id: data.user.id,
-                        email: data.user.email,
-                    });
-
-                if (insertError) {
-                    console.error('Error creating user profile:', insertError);
-                    // Don't block the user - we'll handle this in the profile screen
-                }
-            }
-
+            // Note: User row is automatically created by database trigger (on_auth_user_created)
             // Auth state listener in _layout.tsx will automatically redirect to onboarding
-            // since the new user won't have a display_name yet
             Alert.alert('Success', 'Account created! Setting up your profile...');
         } catch (err) {
             Alert.alert('Error', 'An unexpected error occurred');
@@ -93,6 +78,25 @@ export default function SignUp() {
                 variant="outline"
                 onPress={() => router.back()}
             />
+
+            <View style={styles.legalLinks}>
+                <Pressable onPress={() => router.push('/privacy-policy' as any)}>
+                    <AppText variant="caption" style={styles.legalLink}>Privacy Policy</AppText>
+                </Pressable>
+                <AppText variant="caption" style={styles.legalSeparator}>•</AppText>
+                <Pressable onPress={() => router.push('/terms-of-service' as any)}>
+                    <AppText variant="caption" style={styles.legalLink}>Terms of Service</AppText>
+                </Pressable>
+            </View>
+
+            <Pressable
+                style={styles.supportLink}
+                onPress={() => Linking.openURL('mailto:info@chroniclehabit.com')}
+            >
+                <AppText variant="caption" style={styles.supportText}>
+                    Need help? Contact info@chroniclehabit.com
+                </AppText>
+            </Pressable>
         </ScreenWrapper>
     );
 }
@@ -111,5 +115,28 @@ const styles = StyleSheet.create({
     },
     button: {
         marginBottom: theme.spacing.m,
+    },
+    legalLinks: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: theme.spacing.l,
+        gap: 8,
+    },
+    legalLink: {
+        color: theme.colors.textSecondary,
+        fontSize: 12,
+    },
+    legalSeparator: {
+        color: theme.colors.textSecondary,
+        fontSize: 12,
+    },
+    supportLink: {
+        marginTop: theme.spacing.m,
+        alignItems: 'center',
+    },
+    supportText: {
+        color: theme.colors.textSecondary,
+        textAlign: 'center',
     },
 });

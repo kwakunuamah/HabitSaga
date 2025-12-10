@@ -14,15 +14,22 @@ export default function Index() {
     const [isRetrying, setIsRetrying] = useState(false);
 
     useEffect(() => {
-        logger.log('Index: loading=', loading, 'session=', !!session, 'profileStatus=', profileStatus);
+        logger.log('Index: loading=', loading, 'session=', !!session, 'profileStatus=', profileStatus, 'profile=', profile?.display_name);
 
         if (!loading) {
             if (session) {
                 // User is logged in - check profile status
                 if (profileStatus === 'found') {
-                    // Profile exists, go to home
-                    logger.log('Index: Redirecting to home');
-                    router.replace('/(tabs)/home');
+                    // Profile exists - but is it complete?
+                    if (profile?.display_name) {
+                        // Profile is complete, go to home
+                        logger.log('Index: Redirecting to home (profile complete)');
+                        router.replace('/(tabs)/home');
+                    } else {
+                        // Profile exists but incomplete (no display_name) - needs onboarding
+                        logger.log('Index: Redirecting to onboarding (profile incomplete - no display_name)');
+                        router.replace('/onboarding/tutorial');
+                    }
                 } else if (profileStatus === 'not_found') {
                     // Profile genuinely doesn't exist, go to onboarding
                     logger.log('Index: Redirecting to onboarding (no profile exists)');
@@ -38,7 +45,7 @@ export default function Index() {
                 setIsReady(true);
             }
         }
-    }, [session, profileStatus, loading]);
+    }, [session, profile, profileStatus, loading]);
 
     const handleRetry = async () => {
         setIsRetrying(true);

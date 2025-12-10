@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet, Alert, Pressable, Linking } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ScreenWrapper } from '../../components/ScreenWrapper';
 import { AppText } from '../../components/AppText';
@@ -75,6 +75,25 @@ export default function Login() {
                 variant="outline"
                 onPress={() => router.back()}
             />
+
+            <View style={styles.legalLinks}>
+                <Pressable onPress={() => router.push('/privacy-policy' as any)}>
+                    <AppText variant="caption" style={styles.legalLink}>Privacy Policy</AppText>
+                </Pressable>
+                <AppText variant="caption" style={styles.legalSeparator}>•</AppText>
+                <Pressable onPress={() => router.push('/terms-of-service' as any)}>
+                    <AppText variant="caption" style={styles.legalLink}>Terms of Service</AppText>
+                </Pressable>
+            </View>
+
+            <Pressable
+                style={styles.supportLink}
+                onPress={() => Linking.openURL('mailto:info@chroniclehabit.com')}
+            >
+                <AppText variant="caption" style={styles.supportText}>
+                    Need help? Contact info@chroniclehabit.com
+                </AppText>
+            </Pressable>
         </ScreenWrapper>
     );
 }
@@ -111,5 +130,28 @@ const styles = StyleSheet.create({
         color: theme.colors.textSecondary,
         paddingHorizontal: theme.spacing.m,
         fontSize: 12,
+    },
+    legalLinks: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: theme.spacing.l,
+        gap: 8,
+    },
+    legalLink: {
+        color: theme.colors.textSecondary,
+        fontSize: 12,
+    },
+    legalSeparator: {
+        color: theme.colors.textSecondary,
+        fontSize: 12,
+    },
+    supportLink: {
+        marginTop: theme.spacing.m,
+        alignItems: 'center',
+    },
+    supportText: {
+        color: theme.colors.textSecondary,
+        textAlign: 'center',
     },
 });

@@ -97,10 +97,10 @@ export async function scheduleCheckInReminders(
         await cancelGoalNotifications(goal.id);
 
         const notificationMessages = [
-            `It's time to add a new chapter to your ${goal.title} saga.`,
-            `Quick check-in for your habit saga — keep your streak alive.`,
+            `It's time to add a new chapter to your ${goal.title} story.`,
+            `Quick check-in for your story — keep your streak alive!`,
             `Time to continue your journey in ${goal.title}.`,
-            `Your saga awaits — ready to log today's chapter?`,
+            `Your story awaits — ready to log today's chapter?`,
         ];
 
         // Schedule notifications based on cadence
@@ -238,7 +238,7 @@ export async function schedulePostCompletionNudge(
         await Notifications.scheduleNotificationAsync({
             content: {
                 title: 'Ready for Your Next Adventure?',
-                body: `Your ${goalTitle} saga wrapped up beautifully. Ready for Season 2 or a new adventure?`,
+                body: `Your ${goalTitle} story wrapped up beautifully. Ready for Season 2 or a new adventure?`,
                 data: {
                     goalId,
                     type: 'post_completion_nudge'
