@@ -1,8 +1,40 @@
 import { Slot } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet, Platform, Text } from 'react-native';
 import { theme } from '../theme';
+import React from 'react';
+
+// Simple error boundary for debugging
+class ErrorBoundary extends React.Component<
+    { children: React.ReactNode },
+    { hasError: boolean; error: Error | null }
+> {
+    constructor(props: { children: React.ReactNode }) {
+        super(props);
+        this.state = { hasError: false, error: null };
+    }
+
+    static getDerivedStateFromError(error: Error) {
+        return { hasError: true, error };
+    }
+
+    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+        console.error('Error caught by boundary:', error, errorInfo);
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'red' }}>Something went wrong</Text>
+                    <Text style={{ marginTop: 10, color: '#333' }}>{this.state.error?.message}</Text>
+                </View>
+            );
+        }
+        return this.props.children;
+    }
+}
 
 /**
  * Web-specific Root Layout
@@ -14,15 +46,18 @@ import { theme } from '../theme';
  * - Push Notifications logic.
  */
 export default function RootLayoutWeb() {
+    console.log('[RootLayoutWeb] Rendering...');
     return (
-        <SafeAreaProvider>
-            <View style={styles.container}>
-                <View style={styles.contentContainer}>
-                    <Slot />
+        <ErrorBoundary>
+            <SafeAreaProvider>
+                <View style={styles.container}>
+                    <View style={styles.contentContainer}>
+                        <Slot />
+                    </View>
+                    <StatusBar style="dark" />
                 </View>
-                <StatusBar style="dark" />
-            </View>
-        </SafeAreaProvider>
+            </SafeAreaProvider>
+        </ErrorBoundary>
     );
 }
 
