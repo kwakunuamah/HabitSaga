@@ -1,5 +1,7 @@
 /* Reset and Base Styles */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -59,13 +61,36 @@ body {
 .logo {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     font-weight: 700;
     font-size: 20px;
+    text-decoration: none;
+    color: var(--text-primary);
 }
 
-.logo-icon {
-    font-size: 24px;
+.logo-img {
+    height: 40px;
+    width: auto;
+}
+
+.footer-logo-img {
+    height: 32px;
+    width: auto;
+    filter: brightness(0) invert(1);
+}
+
+.feature-card-highlight {
+    background: linear-gradient(135deg, var(--background-warm) 0%, #FFF5F0 100%);
+    border-color: var(--primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-phone {
+    width: 120px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
 }
 
 .nav-links {
@@ -541,6 +566,7 @@ body {
 
 /* Responsive */
 @media (max-width: 1024px) {
+
     .features-grid,
     .steps-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -551,61 +577,61 @@ body {
     .nav-links {
         display: none;
     }
-    
+
     .mobile-menu-btn {
         display: flex;
     }
-    
+
     .mobile-menu.active {
         display: flex;
     }
-    
+
     .hero h1 {
         font-size: 36px;
     }
-    
+
     .hero-subtitle {
         font-size: 16px;
     }
-    
+
     .hero-phones {
         flex-direction: column;
         gap: 20px;
     }
-    
+
     .phone-left,
     .phone-right {
         display: none;
     }
-    
+
     .phone-center {
         width: 280px;
     }
-    
+
     .section-title {
         font-size: 28px;
     }
-    
+
     .features-grid,
     .steps-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .footer-content {
         flex-direction: column;
         gap: 24px;
         text-align: center;
     }
-    
+
     .footer-links {
         flex-direction: column;
         gap: 16px;
     }
-    
+
     .sticky-cta {
         display: block;
     }
-    
+
     .footer {
         padding-bottom: 100px;
     }
