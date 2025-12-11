@@ -3,6 +3,7 @@
     "name": "Habit Chronicle",
     "slug": "habit-chronicle",
     "version": "1.2",
+    "scheme": "habitchronicle",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
