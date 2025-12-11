@@ -10,8 +10,8 @@
 
 // API Keys - These should be loaded from environment variables in production
 export const REVENUECAT_CONFIG = {
-    // iOS API Key (Test key for now, replace with production key later)
-    iosApiKey: process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY || 'test_tzqsJxJiTleWHjVfNkjZELbAsXV',
+    // iOS API Key - loaded from environment variables
+    iosApiKey: process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY || '',
 
     // Android API Key (if needed in future)
     androidApiKey: process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY || '',
