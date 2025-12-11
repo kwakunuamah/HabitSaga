@@ -7,6 +7,21 @@ import { StatusBar } from 'expo-status-bar';
 import { registerForPushNotificationsAsync } from '../utils/notifications';
 import { habitSagaApi } from '../api/habitSagaApi';
 import { logger } from '../utils/logger';
+import * as Sentry from '@sentry/react-native';
+
+// Initialize Sentry - must be done at app entry point
+Sentry.init({
+    dsn: 'https://ccd206af90aada195064e35eeb89b428@o4510298520748032.ingest.us.sentry.io/4510512080551936',
+    sendDefaultPii: true,
+    enableLogs: true,
+    // Capture 10% of sessions for performance monitoring
+    tracesSampleRate: 0.1,
+    // Capture 100% of sessions with errors for replay
+    replaysOnErrorSampleRate: 1.0,
+    // Capture 10% of all sessions for replay
+    replaysSessionSampleRate: 0.1,
+    integrations: [Sentry.mobileReplayIntegration()],
+});
 
 function RootLayoutNav() {
     const { session, loading, profile } = useAuth();
@@ -81,7 +96,7 @@ function RootLayoutNav() {
     return <Slot />;
 }
 
-export default function RootLayout() {
+export default Sentry.wrap(function RootLayout() {
     return (
         <SafeAreaProvider>
             <AuthProvider>
@@ -92,4 +107,5 @@ export default function RootLayout() {
             </AuthProvider>
         </SafeAreaProvider>
     );
-}
+});
+
